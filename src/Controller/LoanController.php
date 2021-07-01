@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Form\LoanType;
 use App\Repository\LoanRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +22,7 @@ class LoanController extends AbstractController
      */
     public function indexAdminLoan(LoanRepository $loanRepository): Response
     {
-        return $this->render('loan/index.html.twig', [
+        return $this->render('loan/indexAdmin.html.twig', [
             'loans' => $loanRepository->findAll(),
         ]);
     }
@@ -70,16 +71,18 @@ class LoanController extends AbstractController
 
     /**
      * @Route("/{id}", name="loan_show", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      */
-    // public function show(Loan $loan): Response
-    // {
-    //     return $this->render('loan/show.html.twig', [
-    //         'loan' => $loan,
-    //     ]);
-    // }
+    public function show(Loan $loan): Response
+    {
+        return $this->render('loan/show.html.twig', [
+            'loan' => $loan,
+        ]);
+    }
 
     /**
      * @Route("/{id}/edit", name="loan_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Loan $loan): Response
     {

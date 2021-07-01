@@ -25,14 +25,13 @@
 						<th scope="row">{{ indexBook.title }}</th>
 						<td>{{ indexBook.author }}</td>
 						<td>{{ indexBook.id }}</td>
-						{% if app.user %}
-							<td>
-								<a class="btn btn-outline-secondary" href="{{ path('loan_new', { 'idBook': indexBook.id, 'idUser': app.user.id }) }}">Emprunter</a>
-							</td>
+						{% if is_granted('ROLE_ADMIN') %}
+							<td><a class="btn btn-outline-secondary" href="{{ path('book_show', { 'id' : indexBook.id }) }}">Voir</a></td>
 						{% else %}
-							<td>
-								<a class="btn btn-outline-secondary" href="{{ path('app_login') }}">Se connecter</a>
-							</td>
+							<td><a class="btn btn-outline-secondary" href="{{ path('loan_new', { 'idBook': indexBook.id, 'idUser': app.user.id }) }}">Emprunter</a></td>
+						{% endif %}
+						{% if app.user is not defined %}
+							<td><a class="btn btn-outline-secondary" href="{{ path('app_login') }}">Se connecter</a></td>
 						{% endif %}
 					</tr>
 				{% endfor %}

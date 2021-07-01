@@ -5,34 +5,41 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container-fluid text-center p-5 bg-light border border-dark">
-		<h1>Livres</h1>
-	</div>
-	<div class="container text-center p-5 mt-5">
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th scope="col">Titre</th>
-					<th scope="col">Auteur</th>
-					<th scope="col">#Id</th>
-					<th scope="col">Action</th>
-				</tr>
-			</thead>
-			<tbody>
-            {% for indexBook in indexBooks | sort %}
+<div class="container-fluid text-center p-5 bg-light border border-dark">
+	<h1>Livres</h1>
+</div>
+<div class="container text-center p-5 mt-5">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th scope="col">Titre</th>
+				<th scope="col">Auteur</th>
+				<th scope="col">#Id</th>
+				<th scope="col">Action</th>
+			</tr>
+		</thead>
+		<tbody>
 				<tr>
 					<th scope="row">{{ indexBook.title }}</th>
 					<td>{{ indexBook.author }}</td>
 					<td>{{ indexBook.id }}</td>
-					{% if app.user %}
-					    <td><a class="btn btn-outline-secondary" href="{{ path('loan_new', { 'idBook': indexBook.id, 'idUser': app.user.id }) }}">Emprunter</a></td>
-                    {% else %}
-					    <td><a class="btn btn-outline-secondary" href="{{ path('app_login') }}">Se connecter</a></td>
-                    {% endif %}
+					{% if is_granted('ROLE_ADMIN') %}
+						<td>
+							<a class="btn btn-outline-secondary" href="{{ path('book_show', { 'id' : indexBook.id }) }}">Voir</a>
+						</td>
+					{% else %}
+						<td>
+							<a class="btn btn-outline-secondary" href="{{ path('loan_new', { 'idBook': indexBook.id, 'idUser': app.user.id }) }}">Emprunter</a>
+						</td>
+					{% endif %}
+					{% if app.user is not defined %}
+						<td>
+							<a class="btn btn-outline-secondary" href="{{ path('app_login') }}">Se connecter</a>
+						</td>
+					{% endif %}
 				</tr>
-            {% endfor %}
-			</tbody>
-		</table>
-	</div>
+		</tbody>
+	</table>
+</div>
 {% endblock %}
 
