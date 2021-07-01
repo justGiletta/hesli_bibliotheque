@@ -37,6 +37,11 @@ class Book
      */
     private $loan;
 
+    public function __construct()
+    {
+        $this->publicationDate = new \DateTimeImmutable('now');
+    }
+
     public function getId(): ?int
     {
         return $this->id;
