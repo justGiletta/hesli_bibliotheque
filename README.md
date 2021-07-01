@@ -2,7 +2,7 @@
 <p>
 </p>
 
-> Projet développé en Symfony 5.3.3 / MySQL /
+> Projet développé en Symfony 5.3.3 / MySQL / Bootstrap 5 /
 
 ### ✨ [Demo](http://127.0.0.1:8000)
 
