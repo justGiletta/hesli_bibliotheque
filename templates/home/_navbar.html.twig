@@ -4,33 +4,34 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+    {% set page = app.request.get('_route') %}
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active ms-5" aria-current="page" href="{{ path('home') }}">Home</a>
+          <a class="nav-link {% if page == 'home'%} active {% else %} {% endif %} ms-5" aria-current="page" href="{{ path('home') }}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Livres</a>
+          <a class="nav-link {% if page == 'index_books'%} active {% else %} {% endif %}" href="{{ path('index_books') }}">Livres</a>
         </li>
         {% if app.user %}
             {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
-                <a class="nav-link" href="#">Livres prêtés</a>
+                <a class="nav-link {% if page == 'loan_index'%} active {% else %} {% endif %}" href="{{ path('loan_index') }}">Livres prêtés</a>
                 </li>
             {% else %}
                 <li class="nav-item">
-                <a class="nav-link" href="#">Mes livres empruntés</a>
+                <a class="nav-link {% if page == 'loan_index_user'%} active {% else %} {% endif %}" href="{{ path('loan_index_user', { 'id': app.user.id }) }}">Mes livres empruntés</a>
                 </li>
             {% endif %}
             <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_logout') }}">Déconnection</a>
+            <a class="nav-link {% if page == 'app_logout'%} active {% else %} {% endif %}" href="{{ path('app_logout') }}">Déconnection</a>
             </li>
         {% else %}
             <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_register') }}">Inscription</a>
+            <a class="nav-link {% if page == 'app_register'%} active {% else %} {% endif %}" href="{{ path('app_register') }}">Inscription</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+            <a class="nav-link {% if page == 'app_login'%} active {% else %} {% endif %}" href="{{ path('app_login') }}">Connexion</a>
             </li>
         {% endif %}
       </ul>

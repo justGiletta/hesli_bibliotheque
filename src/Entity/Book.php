@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BookRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -33,13 +35,15 @@ class Book
     private $publicationDate;
 
     /**
-     * @ORM\OneToOne(targetEntity=Loan::class, mappedBy="book", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=Loan::class, mappedBy="book")
      */
-    private $loan;
+    private $loans;
+
 
     public function __construct()
     {
         $this->publicationDate = new \DateTimeImmutable('now');
+        $this->loans = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -83,24 +87,32 @@ class Book
         return $this;
     }
 
-    public function getLoan(): ?Loan
+    /**
+     * @return Collection|Loan[]
+     */
+    public function getLoans(): Collection
     {
-        return $this->loan;
+        return $this->loans;
     }
 
-    public function setLoan(?Loan $loan): self
+    public function addLoan(Loan $loan): self
     {
-        // unset the owning side of the relation if necessary
-        if ($loan === null && $this->loan !== null) {
-            $this->loan->setBook(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($loan !== null && $loan->getBook() !== $this) {
+        if (!$this->loans->contains($loan)) {
+            $this->loans[] = $loan;
             $loan->setBook($this);
         }
 
-        $this->loan = $loan;
+        return $this;
+    }
+
+    public function removeLoan(Loan $loan): self
+    {
+        if ($this->loans->removeElement($loan)) {
+            // set the owning side to null (unless already changed)
+            if ($loan->getBook() === $this) {
+                $loan->setBook(null);
+            }
+        }
 
         return $this;
     }

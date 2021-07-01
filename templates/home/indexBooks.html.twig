@@ -6,10 +6,9 @@
 
 {% block body %}
 	<div class="container-fluid text-center p-5 bg-light border border-dark">
-		<h1>Bienvenue à la bibliothèque</h1>
+		<h1>Livres</h1>
 	</div>
 	<div class="container text-center p-5 mt-5">
-		<h1 class="mb-5">Derniers livres</h1>
 		<table class="table table-hover">
 			<thead>
 				<tr>
@@ -20,12 +19,16 @@
 				</tr>
 			</thead>
 			<tbody>
-            {% for indexBook in indexBooks %}
+            {% for indexBook in indexBooks | sort %}
 				<tr>
 					<th scope="row">{{ indexBook.title }}</th>
 					<td>{{ indexBook.author }}</td>
 					<td>{{ indexBook.id }}</td>
-					<td>Prêter</td>
+					{% if app.user %}
+					    <td><a class="btn btn-outline-secondary" href="{{ path('loan_new', { 'idBook': indexBook.id, 'idUser': app.user.id }) }}">Emprunter</a></td>
+                    {% else %}
+					    <td><a class="btn btn-outline-secondary" href="{{ path('app_login') }}">Se connecter</a></td>
+                    {% endif %}
 				</tr>
             {% endfor %}
 			</tbody>
