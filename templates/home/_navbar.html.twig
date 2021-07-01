@@ -16,7 +16,7 @@
         {% if app.user %}
             {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
-                <a class="nav-link {% if page == 'loan_index'%} active {% else %} {% endif %}" href="{{ path('loan_index') }}">Livres prêtés</a>
+                <a class="nav-link {% if page == 'loan_index_admin'%} active {% else %} {% endif %}" href="{{ path('loan_index_admin', { 'id': app.user.id }) }}">Livres prêtés</a>
                 </li>
             {% else %}
                 <li class="nav-item">

@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class LoanController extends AbstractController
 {
     /**
-     * @Route("/livres-pretes", name="loan_index_admin", methods={"GET"})
+     * @Route("/livres-pretes/{id}", name="loan_index_admin", methods={"GET"})
      */
     public function indexAdminLoan(LoanRepository $loanRepository): Response
     {
@@ -109,6 +109,6 @@ class LoanController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('loan_index');
+        return $this->redirectToRoute('loan_index_user', ['id' => $loan->getUser()->getId()]);
     }
 }
