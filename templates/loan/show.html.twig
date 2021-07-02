@@ -1,38 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Loan{% endblock %}
+{% block title %}- Prêt{% endblock %}
 
 {% block body %}
-    <h1>Loan</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ loan.id }}</td>
-            </tr>
-            <tr>
-                <th>DateStart</th>
-                <td>{{ loan.dateStart ? loan.dateStart|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>DateEnd</th>
-                <td>{{ loan.dateEnd ? loan.dateEnd|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>IsReturned</th>
-                <td>{{ loan.isReturned ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ loan.createdAt ? loan.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('loan_index') }}">back to list</a>
-
-    <a href="{{ path('loan_edit', {'id': loan.id}) }}">edit</a>
-
-    {{ include('loan/_delete_form.html.twig') }}
+<div class="container-fluid text-center p-5 bg-light border border-dark">
+		<h1>Prêt n° {{ loan.id }}</h1>
+	</div>
+	<div class="container d-flex justify-content-start my-5">
+		<a class="btn btn-outline-secondary" href="{{ path('loan_index_admin', { 'idAdmin': app.user.id }) }}">Retour</a>
+	</div>
+    <div class="container p-5 mt-5">
+		<table class="table">
+            <tbody>
+                <tr>
+                    <th>Date de début</th>
+                    <td>{{ loan.dateStart ? loan.dateStart|date('Y-m-d') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Date de fin</th>
+                    <td>{{ loan.dateEnd ? loan.dateEnd|date('Y-m-d') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Rendu</th>
+                    <td>{{ loan.isReturned ? 'Yes' : 'No' }}</td>
+                </tr>
+                <tr>
+                    <th>Date de création du prêt</th>
+                    <td>{{ loan.createdAt ? loan.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="container d-flex justify-content-end my-5">
+		    <a class="btn btn-outline-secondary" href="{{ path('loan_edit', { 'idLoan': loan.id }) }}">Modifier</a>
+	    </div>
+	</div>
 {% endblock %}

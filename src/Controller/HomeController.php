@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -40,7 +41,8 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="book_show", methods={"GET"})
+     * @Route("/livres/{idBook}", name="book_show")
+     * @ParamConverter("book", class="App\Entity\Book", options={"mapping": {"idBook": "id"}})
      * @IsGranted("ROLE_ADMIN")
      */
     public function show(Book $book): Response

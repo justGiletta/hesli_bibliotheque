@@ -15,29 +15,27 @@
 				<th scope="col">Titre</th>
 				<th scope="col">Auteur</th>
 				<th scope="col">#Id</th>
-				<th scope="col">Action</th>
+				<th scope="col"></th>
 			</tr>
 		</thead>
 		<tbody>
+			{% for indexBook in indexBooks %}
 				<tr>
 					<th scope="row">{{ indexBook.title }}</th>
 					<td>{{ indexBook.author }}</td>
 					<td>{{ indexBook.id }}</td>
-					{% if is_granted('ROLE_ADMIN') %}
-						<td>
-							<a class="btn btn-outline-secondary" href="{{ path('book_show', { 'id' : indexBook.id }) }}">Voir</a>
-						</td>
-					{% else %}
-						<td>
+					<td>
+						{% if app.user and is_granted('ROLE_ADMIN') %}
+							<a class="btn btn-outline-secondary" href="{{ path('book_show', { 'idBook' : indexBook.id }) }}">Voir</a>
+						{% elseif app.user and is_granted('ROLE_USER') %}
 							<a class="btn btn-outline-secondary" href="{{ path('loan_new', { 'idBook': indexBook.id, 'idUser': app.user.id }) }}">Emprunter</a>
-						</td>
-					{% endif %}
-					{% if app.user is not defined %}
-						<td>
+						{% endif %}
+						{% if app.user is null %}
 							<a class="btn btn-outline-secondary" href="{{ path('app_login') }}">Se connecter</a>
-						</td>
-					{% endif %}
+						{% endif %}
+					</td>
 				</tr>
+			{% endfor %}
 		</tbody>
 	</table>
 </div>

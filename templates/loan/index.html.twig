@@ -25,8 +25,8 @@
                 <td>{{ loan.isReturned ? 'Yes' : 'No' }}</td>
                 <td>{{ loan.createdAt ? loan.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('loan_show', {'id': loan.id}) }}">show</a>
-                    <a href="{{ path('loan_edit', {'id': loan.id}) }}">edit</a>
+                    <a href="{{ path('loan_show', {'idAdmin': loan.id}) }}">show</a>
+                    <a href="{{ path('loan_edit', {'idAdmin': loan.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
