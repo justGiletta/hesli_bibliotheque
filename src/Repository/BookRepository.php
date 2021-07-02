@@ -30,34 +30,22 @@ class BookRepository extends ServiceEntityRepository
 
         return $queryBuilder->getResult();
     }
-    
-    // /**
-    //  * @return Book[]
-    //  */
-    // public function findAvailableBooks(): array
-    // {
-    //     $entityManager = $this->getEntityManager();
 
-    //     $query = $entityManager->createQuery(
-    //         'SELECT b.title, b.author, b.publicationDate, b.l.isReturned
-    //         FROM App\Entity\Book b
-    //         JOIN App\Entity\Loan l
-    //         WHERE  b.l.isReturned = true
-    //         ORDER BY b.title ASC'
-    //     );
+    public function findAvailableBooks(): array
+    {
+        $entityManager = $this->getEntityManager();
 
-    //     // returns an array of Product objects
-    //     return $query->getResult();
-    // }
+        $query = $entityManager->createQuery(
+            "SELECT b
+            FROM App\Entity\Book b
+            JOIN App\Entity\Loan l
+            WHERE b.loans IS EMPTY
+            OR l.book = b.id
+            AND l.isReturned = true
+            AND l.dateEnd < CURRENT_TIMESTAMP()
+        ");
 
-    // public function findAvailableBooks()
-    // {
-    //     $queryBuilder = $this->createQueryBuilder('b')
-    //         ->select('id', 'title', 'author', 'loans')
-    //         ->where('loans = null');
-
-    //     return $queryBuilder->getQuery()->getResult();
-    // }
-
+        return $query->getResult();
+    }
 
 }

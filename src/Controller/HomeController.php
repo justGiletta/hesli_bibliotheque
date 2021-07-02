@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Book;
+use App\Entity\Loan;
 use App\Form\SearchFormType;
 use App\Repository\BookRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,11 +18,9 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index(): Response
+    public function index(BookRepository $bookRepository): Response
     {
-        $indexBooks = $this->getDoctrine()
-            ->getRepository(Book::class)
-            ->findAll();
+        $indexBooks = $bookRepository->findAvailableBooks();
 
         return $this->render('home/home.html.twig', [
             'indexBooks' => $indexBooks
@@ -31,15 +30,14 @@ class HomeController extends AbstractController
     /**
      * @Route("/livres", name="index_books")
      */
-    public function indexBooks(): Response
+    public function indexBooks(BookRepository $bookRepository): Response
     {
-        $indexBooks = $this->getDoctrine()
-            ->getRepository(Book::class)
-            ->findAll();
+        $indexBooks = $bookRepository->findAvailableBooks();
 
         return $this->render('home/indexBooks.html.twig', [
             'indexBooks' => $indexBooks,
         ]);
+
     }
 
     /**
@@ -59,6 +57,8 @@ class HomeController extends AbstractController
      */
     public function search(Request $request, BookRepository $bookRepository): Response
     {
+        $availableBooks = $bookRepository->findAvailableBooks();
+
         $search = $request->query->get('searchForm');
         $searchBooks = $bookRepository->searchBar($search);
 
@@ -69,6 +69,7 @@ class HomeController extends AbstractController
         return $this->render('home/search.html.twig', [
             'search' => $search,
             'searchBooks' => $searchBooks,
+            'availableBooks' => $availableBooks,
         ]);
     }
 }
