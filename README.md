@@ -9,7 +9,7 @@
 ## Install
 
 ```sh
-composer install, composer require webpack-encore-bundle, yarn install, bin/console doctrine:fixtures:load,
+composer install, composer require webpack-encore-bundle, yarn install, bin/console doctrine:fixtures:load, symfony server:start
 ```
 
 ## Author
