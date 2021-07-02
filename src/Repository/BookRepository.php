@@ -19,32 +19,45 @@ class BookRepository extends ServiceEntityRepository
         parent::__construct($registry, Book::class);
     }
 
-    // /**
-    //  * @return Book[] Returns an array of Book objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function searchBar(string $name): array
     {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $queryBuilder = $this->createQueryBuilder('b')
+            ->where('b.title LIKE :name')
+            ->orWhere('b.author LIKE :name')
+            ->setParameter('name', '%' . $name . '%')
+            ->orderBy('b.title', 'ASC')
+            ->getQuery();
 
-    /*
-    public function findOneBySomeField($value): ?Book
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $queryBuilder->getResult();
     }
-    */
+    
+    // /**
+    //  * @return Book[]
+    //  */
+    // public function findAvailableBooks(): array
+    // {
+    //     $entityManager = $this->getEntityManager();
+
+    //     $query = $entityManager->createQuery(
+    //         'SELECT b.title, b.author, b.publicationDate, b.l.isReturned
+    //         FROM App\Entity\Book b
+    //         JOIN App\Entity\Loan l
+    //         WHERE  b.l.isReturned = true
+    //         ORDER BY b.title ASC'
+    //     );
+
+    //     // returns an array of Product objects
+    //     return $query->getResult();
+    // }
+
+    // public function findAvailableBooks()
+    // {
+    //     $queryBuilder = $this->createQueryBuilder('b')
+    //         ->select('id', 'title', 'author', 'loans')
+    //         ->where('loans = null');
+
+    //     return $queryBuilder->getQuery()->getResult();
+    // }
+
+
 }

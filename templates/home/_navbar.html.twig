@@ -34,8 +34,8 @@
             </li>
         {% endif %}
       </ul>
-      <form class="d-flex">
-        <input class="form-control" type="search" placeholder="Search..." aria-label="Search">
+      <form class="d-flex" action="{{ path('search') }}" method="get" >
+        <input name="searchForm" class="form-control" type="search" placeholder="Search..." aria-label="Search">
         <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
       </form>
     </div>
