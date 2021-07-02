@@ -2,14 +2,14 @@
 <p>
 </p>
 
-> Projet développé dans le but de prêter des livres disponibles, c’est-à-dire qui ne sont pas entre la date de début et la date de fin. Pour prêter un livre il faut être connecter avec un rôle USER. Il y aura également des pages pour le rôle ADMIN afin de gérer les prêts et les livres.
+> Projet développé en Symfony 5.3.3 / MySQL / Bootstrap 5 /
 
-### ✨ [Demo](http://localhost:8000/)
+### ✨ [Demo](http://127.0.0.1:8000)
 
 ## Install
 
 ```sh
-composer install, yarn install, yarn encore dev-server
+composer install, composer require webpack-encore-bundle, yarn install, bin/console doctrine:fixtures:load,
 ```
 
 ## Author

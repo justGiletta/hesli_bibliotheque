@@ -1,0 +1,12 @@
+{{ form_start(form) }}
+    {{ form_row(form.dateStart) }}
+    {{ form_row(form.dateEnd) }}
+    {{ form_row(form.book) }}
+    {{ form_row(form.user) }}
+    <div class="container d-flex justify-content-center my-5 {% if page == 'loan_new_admin'%} d-none {% else %} {% endif %}">
+        {{ form_row(form.isReturned) }}
+	</div>
+    <div class="container d-flex justify-content-end my-5">
+        <button class="btn btn-outline-secondary">{{ button_label|default('Enregistrer') }}</button>
+	</div>
+{{ form_end(form) }}

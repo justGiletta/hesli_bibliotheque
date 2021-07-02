@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	- Search Results
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid text-center p-5 bg-light border border-dark">
+	<h1>Mot recherché : "{{ search }}"</h1>
+</div>
+<div class="container fluid d-flex justify-content-around flex-wrap p-5 m-4">
+	{% for searchBook in searchBooks %}
+		<div class="card text-center m-3" style="width: 22rem;">
+			<div class="card-body">
+				<h5 class="card-title">{{ searchBook.title }}</h5>
+				<p class="card-text">{{ searchBook.author }}</p>
+				<p class="card-text">Id {{ searchBook.id }}</p>
+				{% if searchBook in availableBooks  %}
+					{% if app.user and is_granted('ROLE_ADMIN') %}
+						<a class="btn btn-outline-secondary" href="{{ path('book_show', { 'idBook' : searchBook.id }) }}">Voir</a>
+					{% elseif app.user and is_granted('ROLE_USER') %}
+						<a class="btn btn-outline-secondary" href="{{ path('loan_new', { 'idBook': searchBook.id, 'idUser': app.user.id }) }}">Emprunter</a>
+					{% endif %}
+					{% if app.user is null %}
+						<a class="btn btn-outline-secondary" href="{{ path('app_login') }}">Se connecter</a>
+					{% endif %}
+				{% else %}
+					<p class="card-text">Indisponible</p>
+				{% endif %}
+			</div>
+		</div>
+	{% endfor %}
+</div>
+
+
+{% endblock %}
+
+
+
+

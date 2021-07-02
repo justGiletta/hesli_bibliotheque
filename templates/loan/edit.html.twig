@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Loan{% endblock %}
+
+{% block body %}
+<div class="container-fluid text-center p-5 bg-light border border-dark">
+		<h1>Modifier le prêt n° {{ loan.id }}</h1>
+	</div>
+	<div class="container d-flex justify-content-start my-5">
+		<a class="btn btn-outline-secondary" href="{{ path('loan_index_admin', { 'idAdmin': app.user.id }) }}">Retour</a>
+	</div>
+    <div class="container p-5 mt-5">
+		{{ include('loan/_form.html.twig', {'button_label': 'Éditer'}) }}
+	</div>
+
+{% endblock %}
